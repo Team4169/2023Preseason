@@ -3,9 +3,11 @@
 import typing
 import wpilib
 import commands2
+import ctre
+
 
 from robotcontainer import RobotContainer
-
+from deadzone import addDeadzone
 
 class MyRobot(commands2.TimedCommandRobot):
     """
@@ -54,6 +56,8 @@ class MyRobot(commands2.TimedCommandRobot):
         self.outtake = self.container.outtake
         self.snowveyor = self.container.snowveyor
 
+        self.drive = self.container.drive
+
 
 
     def disabledInit(self) -> None:
@@ -92,12 +96,15 @@ class MyRobot(commands2.TimedCommandRobot):
 
     def teleopPeriodic(self):
 
+        self.output("newdriveencodervalueleft", self.container.drive.leftTalon.getSelectedSensorPosition())
+        self.output("newdriveencodervalueright", self.container.drive.rightTalon.getSelectedSensorPosition())
+
         if self.driverController.getLeftBumperPressed():
             self.direction = 0
         else:
-            self.direction = self.driverController.getLeftY()
+            self.direction = self.driverController.getLeftX()
 
-        self.speed = addDeadzone(getLeftY())
+        self.speed = addDeadzone(self.driverController.getLeftY())
         if self.operatorController.getStartButtonPressed():
             self.climbMode = not self.climbMode
             self.container.configureButtonBindings()
@@ -132,19 +139,19 @@ class MyRobot(commands2.TimedCommandRobot):
                 self.direction = 0
             else:
                 self.speed = 0
-            self.drive.tankDrive(self.speed, self.rspeed)
+            self.drive.arcadeDrive(self.speed, self.direction)
 
             return
 
 
         if self.driverController.getAButton():
-            self.speed *= 0.5
+            self.speed *= 0.75
         elif self.driverController.getBButton():
-            self.speed *= 0.25
+            self.speed *= 0.5
         elif self.driverController.getYButton():
-            self.speed *= 0.1
+            self.speed *= 0.3
         elif self.driverController.getXButton():
-            pass
+            self.speed = 0
 
 
         if self.operatorController.getLeftTriggerAxis() > 0.2:
@@ -160,8 +167,8 @@ class MyRobot(commands2.TimedCommandRobot):
             self.snowveyor.tankDrive(-1,-1)
 
 
-        if abs(self.gyro.getYaw() - self.yaw) > 80:
-            self.humancontrol = True
+        # if abs(self.gyro.getYaw() - self.yaw) > 80:
+        #     self.humancontrol = True
 
 
 
