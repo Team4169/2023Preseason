@@ -3,10 +3,12 @@ import commands2
  
 
 class coastRotateArm(commands2.CommandBase):
-    def __init__(self, isCoast, climb: ClimbingSubsystem) -> None:
+    def __init__(self, isCoast, climb: ClimbingSubsystem, container) -> None:
         super().__init__()
-        self.isCoast = isCoast
+        
         self.climb = climb
+        self.container=container
+        self.container.isCoast=not self.container.isCoast
 
 
 
@@ -14,7 +16,9 @@ class coastRotateArm(commands2.CommandBase):
         pass
 
     def execute(self) -> None:
+
         self.climb.setCoast(isCoast)
+
         output("Break Mode:",isCoast)
 
     def end(self, interrupted: bool) -> None:

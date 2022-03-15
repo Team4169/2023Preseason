@@ -152,8 +152,8 @@ class RobotContainer:
             MoveRotateArm(-.5, self.climb)
         )
         commands2.button.JoystickButton(self.operatorController, wpilib.XboxController.Button.kBack).whenPressed(
-           self.coastBool=not self.coastBool
-           coastRotateArm(self.coastBool, self.climb)
+
+           coastRotateArm(self.coastBool, self.climb, self)
         )
         # commands2.button.JoystickButton(self.operatorController, wpilib.XboxController.Button.kY).whenPressed(
         #     MoveLiftArmToLimitSwitch(.5, self.climb)
