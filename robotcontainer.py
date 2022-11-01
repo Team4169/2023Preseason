@@ -16,6 +16,7 @@ from commands.lucautocommand import LucAutoCommand
 from commands.lucautocommandInverted import LucAutoCommand2
 from commands.newPath import newPath
 from commands.newPathInverted import newPathInverted
+from commands.drivetriangle import DriveTriangle
 
 from commands.SnowVeyerCommands.DropOff import dropOff
 from commands.SnowVeyerCommands.PickUp import pickUp
@@ -134,7 +135,10 @@ class RobotContainer:
         #         lambda: self.driverController.getLeftY(),
         #     )
         # )
-
+  
+    def driveTriangle(self):
+        DriveTriangle(self.drive)
+    
     def bindClimbMode(self):
         """
         Use this method to define your button->command mappings. Buttons can be created by

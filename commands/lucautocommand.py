@@ -17,7 +17,7 @@ class LucAutoCommand(commands2.SequentialCommandGroup):
 
     def __init__(self, drive: DriveSubsystem, snowveyor: SnowveyorSubsystem):
         super().__init__(
-            # Drive forward the specified distance
+            Drive forward the specified distance
             ResetGyro(drive),
             MoveCommand(-3.6666667, 0, drive),
             MoveCommand(0, 65, drive),
@@ -33,11 +33,4 @@ class LucAutoCommand(commands2.SequentialCommandGroup):
             MoveCommand(-1, 67.5, drive),
             dropOff(2, 0.3, snowveyor),
             MoveCommand(1, 67.5, drive),
-            # DriveDistance(
-            #     constants.kAutoDriveDistanceInches, constants.kAutoDriveSpeed, drive
-            # ),
-            # # Drive backward the specified distance
-            # DriveDistance(
-            #     constants.kAutoBackupDistanceInches, -constants.kAutoDriveSpeed, drive
-            # ),
         )

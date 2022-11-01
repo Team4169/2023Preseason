@@ -95,66 +95,67 @@ class MyRobot(commands2.TimedCommandRobot):
 
 
     def teleopPeriodic(self):
-
-        self.output("newdriveencodervalueleft", self.container.drive.leftTalon.getSelectedSensorPosition())
-        self.output("newdriveencodervalueright", self.container.drive.rightTalon.getSelectedSensorPosition())
-
-        if self.driverController.getLeftBumperPressed():
-            self.direction = 0
-        else:
-            self.direction = self.driverController.getLeftX()
-
-        self.speed = addDeadzone(self.driverController.getLeftY())
-
-        if self.operatorController.getStartButtonPressed():
-            self.climbMode = not self.climbMode
-            if self.climbMode:
-                self.container.bindClimbMode()
-            else:
-                self.container.unbindClimbMode()
-
-        if self.climbMode:
-            dir = self.operatorController.getPOV()
-            self.speed = 0.2
-            if 225 < dir <= 315:
-                self.direction = -1
-            elif 135 < dir <= 225:
-                self.speed *= -1
-                self.direction = 0
-            elif 45 < dir <= 135:
-                self.direction = 1
-            elif dir <= 45:
-                self.direction = 0
-            else:
-                self.speed = 0
-            self.drive.arcadeDrive(self.speed, self.direction)
-            return
-
-
         if self.driverController.getAButton():
-            self.speed *= 0.75
-        elif self.driverController.getBButton():
-            self.speed *= 0.5
-        elif self.driverController.getYButton():
-            self.speed *= 0.3
-        elif self.driverController.getXButton():
-            self.speed = 0
+          self.driveTriangle()
+        # self.output("newdriveencodervalueleft", self.container.drive.leftTalon.getSelectedSensorPosition())
+        # self.output("newdriveencodervalueright", self.container.drive.rightTalon.getSelectedSensorPosition())
+
+        # if self.driverController.getLeftBumperPressed():
+        #     self.direction = 0
+        # else:
+        #     self.direction = self.driverController.getLeftX()
+
+        # self.speed = addDeadzone(self.driverController.getLeftY())
+
+        # if self.operatorController.getStartButtonPressed():
+        #     self.climbMode = not self.climbMode
+        #     if self.climbMode:
+        #         self.container.bindClimbMode()
+        #     else:
+        #         self.container.unbindClimbMode()
+
+        # if self.climbMode:
+        #     dir = self.operatorController.getPOV()
+        #     self.speed = 0.2
+        #     if 225 < dir <= 315:
+        #         self.direction = -1
+        #     elif 135 < dir <= 225:
+        #         self.speed *= -1
+        #         self.direction = 0
+        #     elif 45 < dir <= 135:
+        #         self.direction = 1
+        #     elif dir <= 45:
+        #         self.direction = 0
+        #     else:
+        #         self.speed = 0
+        #     self.drive.arcadeDrive(self.speed, self.direction)
+        #     return
 
 
-        if self.operatorController.getLeftTriggerAxis() > 0.2:
-            self.snowveyor.tankDrive(1,0)
-
-        elif self.operatorController.getRightTriggerAxis() > 0.2:
-            self.snowveyor.tankDrive(1,-1)
-
-        elif self.operatorController.getLeftBumper():
-            self.snowveyor.tankDrive(-1,0)
-
-        elif self.operatorController.getRightBumper():
-            self.snowveyor.tankDrive(-1,-1)
+        # if self.driverController.getAButton():
+        #     self.speed *= 0.75
+        # elif self.driverController.getBButton():
+        #     self.speed *= 0.5
+        # elif self.driverController.getYButton():
+        #     self.speed *= 0.3
+        # elif self.driverController.getXButton():
+        #     self.speed = 0
 
 
-        self.drive.arcadeDrive(self.speed, self.direction)
+        # if self.operatorController.getLeftTriggerAxis() > 0.2:
+        #     self.snowveyor.tankDrive(1,0)
+
+        # elif self.operatorController.getRightTriggerAxis() > 0.2:
+        #     self.snowveyor.tankDrive(1,-1)
+
+        # elif self.operatorController.getLeftBumper():
+        #     self.snowveyor.tankDrive(-1,0)
+
+        # elif self.operatorController.getRightBumper():
+        #     self.snowveyor.tankDrive(-1,-1)
+
+
+        # self.drive.arcadeDrive(self.speed, self.direction)
 
 
     def testInit(self) -> None:
